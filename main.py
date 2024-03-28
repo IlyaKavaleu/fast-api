@@ -5,8 +5,8 @@ from pydantic import BaseModel, ValidationError, validator, EmailStr
 from starlette import status
 from contextlib import asynccontextmanager
 from database import create_tables, delete_tables
-from schemas import Tasks, STask
-from router import router
+from schemas import *
+from router import entries_router
 
 
 def fake_answer_to_everything_mk_model(x: float):
@@ -18,17 +18,16 @@ ml_models = {}
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    await delete_tables()
+    # await delete_tables()
     print('Base clear')
     await create_tables()
     print('Base ready')
     yield
-    print('Off')
+    print('Off DB')
 
 
 app = FastAPI(lifespan=lifespan)
-app.include_router(router)
-
+app.include_router(entries_router)
 
 # app = FastAPI(
 #     title='Py=44 TEST API',

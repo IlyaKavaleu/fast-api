@@ -3,16 +3,22 @@ from typing import Optional
 from pydantic import BaseModel
 
 
-class Tasks(BaseModel):
+class EntryAdd(BaseModel):
     name: str
-    description: str
+    description: str | None
     age: Optional[int]
 
 
-class STask(BaseModel):
+class EntryEdit(BaseModel):
+    name: str
+    description: str | None
+    age: Optional[int]
+
+
+class Entry(EntryAdd):
     id: int
 
 
-class STaskID(BaseModel):
+class EntryID(BaseModel):
     ok: bool = True
-    task_id: int
+    entry_id: int
