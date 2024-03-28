@@ -54,10 +54,20 @@ class EntryRepository:
     @classmethod
     async def delete_entry_id(cls, entry_id):
         async with new_session() as session:
-            query = select(EntryORM).filter(EntryORM.id == entry_id)
-            result = await session.execute(query)
-            entry = result.scalar_one_or_none()
-            await session.delete(entry)
-            await session.commit()
-            return {'entry_id': entry_id}
+            try:
+                query = select(EntryORM).filter(EntryORM.id == entry_id)
+                result = await session.execute(query)
+                entry = result.scalar_one_or_none()
+                if entry:
+                    await session.delete(entry)
+                    await session.commit()
+                    return {'entry_id': entry_id, 'status': f'entry_{entry_id} was deleted'}
+                else:
+                    return {'entry': 'Not exists!'}
+            except Exception:
+                ...
+
+
+
+
 
