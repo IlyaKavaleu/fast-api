@@ -24,7 +24,7 @@ async def get_tasks():
     return {'tasks': tasks}
 
 
-@entries_router.get('/{entry_id}', response_model=Entry)  # Указываем схему ответа здесь
+@entries_router.get('/{entry_id}', response_model=Entry)
 async def entry_detail(entry_id: int):
     entry = await EntryRepository.find_by_id(entry_id)
     return entry
