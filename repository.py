@@ -41,7 +41,6 @@ class EntryRepository:
             query = select(EntryORM).filter(EntryORM.id == entry_id)
             result = await session.execute(query)
             entry = result.scalar_one_or_none()   # object in DB
-            # print(result)
             if entry:
                 for key, value in data.items():
                     setattr(entry, key, value)
@@ -58,8 +57,7 @@ class EntryRepository:
             query = select(EntryORM).filter(EntryORM.id == entry_id)
             result = await session.execute(query)
             entry = result.scalar_one_or_none()
-            entry_id = entry.id
-            session.delete(entry)
-            session.commit()
+            await session.delete(entry)
+            await session.commit()
             return {'entry_id': entry_id}
 
